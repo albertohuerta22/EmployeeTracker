@@ -2,6 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 
+//imported routes
+import userRoutes from './routes/userRoutes.js';
+
 dotenv.config();
 
 connectDB();
@@ -9,6 +12,9 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+
+//mount routes
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
