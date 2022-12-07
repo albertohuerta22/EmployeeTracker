@@ -19,9 +19,10 @@ const employeeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  skill: {
-    type: String, //REF field
-    required: true,
+  skillLevel: {
+    type: mongoose.Schema.Types.ObjectId, //REF field
+    required: false,
+    ref: 'Skill',
   },
   active: {
     type: Boolean,

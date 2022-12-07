@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 //possibly import bcrypt
 const userSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   username: {
     //NEEDS GUID FIELD
     type: String,
@@ -8,6 +12,10 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String, // must be encrypted
+    required: true,
+  },
+  isAdmin: {
+    type: Boolean,
     required: true,
   },
 });
