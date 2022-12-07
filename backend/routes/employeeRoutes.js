@@ -4,12 +4,16 @@ import express from 'express';
 import {
   getEmployees,
   createEmployee,
+  deleteEmployee,
 } from '../controllers/employeeController.js';
 
 //imported security middleware
 
 const router = express.Router();
 
+//  /api/employees
 router.route('/').get(getEmployees).post(createEmployee);
 
+// /api/employees/:id
+router.route('/:id').delete(deleteEmployee);
 export default router;

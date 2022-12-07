@@ -28,4 +28,20 @@ const createEmployee = asyncHandler(async (req, res) => {
   res.status(201).json(createdEmployee);
 });
 
-export { getEmployees, createEmployee };
+//description Delete a product
+//route: DELETE /api/employees
+//access: private
+
+const deleteEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+
+  if (employee) {
+    await employee.remove();
+    res.json({ message: 'Employee removed' });
+  } else {
+    res.status(404);
+    throw new Error('Employee not found');
+  }
+});
+
+export { getEmployees, createEmployee, deleteEmployee };
