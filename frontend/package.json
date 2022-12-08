@@ -5,6 +5,7 @@
   "main": "index.js",
   "proxy": "http://127.0.0.1:5000",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.0",
     "bootstrap": "^5.2.3",
     "react": "^18.2.0",
