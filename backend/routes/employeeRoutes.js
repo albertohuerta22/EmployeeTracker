@@ -3,7 +3,9 @@ import express from 'express';
 //imported controllers
 import {
   getEmployees,
+  getSingleEmployee,
   createEmployee,
+  updateEmployee,
   deleteEmployee,
 } from '../controllers/employeeController.js';
 
@@ -15,5 +17,9 @@ const router = express.Router();
 router.route('/').get(getEmployees).post(createEmployee);
 
 // /api/employees/:id
-router.route('/:id').delete(deleteEmployee);
+router
+  .route('/:id')
+  .get(getSingleEmployee)
+  .put(updateEmployee)
+  .delete(deleteEmployee);
 export default router;

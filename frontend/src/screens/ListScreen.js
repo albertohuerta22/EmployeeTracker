@@ -39,6 +39,7 @@ const ListScreen = () => {
           {employees &&
             employees.map((employee) => (
               <tr key={employee._id}>
+                {console.log(employee)}
                 <td>{employee._id}</td>
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>

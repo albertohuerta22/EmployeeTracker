@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
+const skillSchema = mongoose.Schema({
+  // GUID FIELD
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+});
+
 const employeeSchema = mongoose.Schema({
   //employee GUID type
 
@@ -19,11 +31,14 @@ const employeeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  skillLevel: {
-    type: mongoose.Schema.Types.ObjectId, //REF field
-    required: false,
-    ref: 'Skill',
-  },
+  skills: [
+    skillSchema,
+    // {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: false,
+    //   ref: 'Skills',
+    // },
+  ],
   active: {
     type: Boolean,
     required: true,
