@@ -11,7 +11,7 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 //description: GET SINGLE User
-//: GET /api/users/:id
+//route: GET /api/users/:id
 //access: private/admin
 const getSingleUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
@@ -23,4 +23,19 @@ const getSingleUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUsers, getSingleUser };
+//description: DELETE user
+//route: DELETE /api/users/:id
+//access: private/admin ->protected by admin middlware
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error({ message: 'User not found' });
+  }
+});
+
+export { getUsers, getSingleUser, deleteUser };
