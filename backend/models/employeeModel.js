@@ -34,7 +34,7 @@ const employeeSchema = mongoose.Schema({
   skills: [
     skillSchema,
     // {
-    //   type: mongoose.Schema.Types.ObjectId,
+    //   type: mongoose.Schema.Types.ObjectId, ** not sure why this did not work
     //   required: false,
     //   ref: 'Skills',
     // },
