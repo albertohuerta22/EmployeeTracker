@@ -10,4 +10,17 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-export { getUsers };
+//description: GET SINGLE User
+//: GET /api/users/:id
+//access: private/admin
+const getSingleUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export { getUsers, getSingleUser };
