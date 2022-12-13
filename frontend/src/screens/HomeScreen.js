@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
+
+//imported reducer
+import { login } from '../action/userAction';
+
 const HomeScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error } = userLogin;
+
+  //redirect if already logged in
+  // const redirect = location.search ? location.search.split('=')[1] : '/';
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     //setUserInfo(userInfo)
+  //     navigate(redirect);
+  //     //navigate('/')
+  //   }
+  // }, [userInfo, navigate]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     //Dispatch Login reducer
+    dispatch(login(username, password));
     //navigate to list screen
-
-    alert('submitted');
+    navigate('/list');
   };
 
   return (

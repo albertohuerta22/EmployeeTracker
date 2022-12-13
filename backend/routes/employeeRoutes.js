@@ -15,7 +15,7 @@ import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 //  /api/employees
-router.route('/').get(protect, getEmployees).post(createEmployee);
+router.route('/').get(getEmployees).post(createEmployee);
 
 // /api/employees/:id
 router

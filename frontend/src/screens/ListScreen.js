@@ -13,7 +13,8 @@ const ListScreen = () => {
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
 
-  // console.log(employees);
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
   useEffect(() => {
     dispatch(listEmployees());
   }, [dispatch]);
@@ -46,10 +47,14 @@ const ListScreen = () => {
                 <td>{employee.email}</td>
                 <td>{employee.dob}</td>
                 <td>{employee.age}</td>
-                <td>null</td>
-                <td>null</td>
+                <td>{employee.skills.map((skill) => skill.name)}</td>
+                <td>{employee.skills.map((skill) => skill.description)}</td>
                 <td>null</td>
                 <td>{employee.active.toString()}</td>
+                <Button variant="">
+                  {/* //download bootstrap for trash icon */}
+                  <i className="fa fa-trash">X</i>
+                </Button>
               </tr>
             ))}
         </tbody>
