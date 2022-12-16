@@ -1,14 +1,49 @@
+// import { query } from 'express';
 import asyncHandler from 'express-async-handler';
 import Employee from '../models/employeeModel.js';
+import Skill from '../models/skillModel.js';
 
 //description: GET ALL EMPLOYEES
 //route: GET /api/employees
 //access: public
 
 const getEmployees = asyncHandler(async (req, res) => {
-  const employees = await Employee.find({});
+  const employees = await Employee.find({})
+    .populate({
+      path: 'Skills',
+      select: 'name',
+      strictPopulate: false,
+    })
+    .exec();
+  // .exec((err, employee) => {
+  //   if (err) return handleError(err);
+  //   console.log(employee);
+  // });
 
   res.json(employees);
+});
+//description: GET ALL EMPLOYEES
+//route: GET /api/employees
+//access: public
+
+const getAllEmployees = asyncHandler(async (req, res) => {
+  try {
+    const employees = await Employee.find().populate({
+      path: 'Skill',
+      populate: {
+        path: 'skills',
+        // model: 'Skill',
+      },
+      strictPopulate: false,
+      select: 'name description',
+    });
+    res.status(200).send({ employees: [...employees], success: true });
+
+    res.json(employees);
+  } catch (error) {
+    console.log(error);
+    res.status(404).send({ success: false, msg: error.message });
+  }
 });
 //description: GET EMPLOYEE
 //route: GET /api/employees/:id
@@ -34,6 +69,14 @@ const createEmployee = asyncHandler(async (req, res) => {
     skills: [],
   });
 
+  const skills = await Skill.create({
+    name: 'python',
+    description: 'high',
+    employee: employee._id,
+  });
+
+  await employee.skills.push(skills);
+
   const createdEmployee = await employee.save();
   res.status(201).json(createdEmployee);
 });
@@ -56,7 +99,7 @@ const updateEmployee = asyncHandler(async (req, res) => {
     employee.skills = skills;
 
     const updatedEmployee = await employee.save();
-    res.json(updateEmployee);
+    res.json(updatedEmployee);
   } else {
     res.status(404);
     throw new Error('Product not found');
@@ -85,4 +128,5 @@ export {
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  getAllEmployees,
 };

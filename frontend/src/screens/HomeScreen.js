@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 
@@ -12,11 +12,11 @@ const HomeScreen = () => {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error } = userLogin;
+  // const userLogin = useSelector((state) => state.userLogin);
+  // const { loading, error } = userLogin;
 
   //redirect if already logged in
   // const redirect = location.search ? location.search.split('=')[1] : '/';

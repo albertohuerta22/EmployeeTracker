@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const skillSchema = mongoose.Schema({
   // GUID FIELD
@@ -9,6 +9,10 @@ const skillSchema = mongoose.Schema({
   description: {
     type: String,
     required: true,
+  },
+  emplyee: {
+    type: Schema.Types.ObjectId,
+    ref: 'Employee',
   },
 });
 

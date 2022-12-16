@@ -5,6 +5,9 @@ import {
   EMPLOYEE_LIST_REQUEST,
   EMPLOYEE_LIST_SUCCESS,
   EMPLOYEE_LIST_FAIL,
+  EMPLOYEE_DELETE_REQUEST,
+  EMPLOYEE_DELETE_SUCCESS,
+  EMPLOYEE_DELETE_FAIL,
 } from '../constants/employeeConstants';
 
 export const listEmployees = () => async (dispatch) => {
@@ -19,5 +22,32 @@ export const listEmployees = () => async (dispatch) => {
     //request unsuccessful
   } catch (error) {
     dispatch({ type: EMPLOYEE_LIST_FAIL, payload: error.message });
+  }
+};
+
+export const deleteEmployee = (id) => async (dispatch, getState) => {
+  //passes userinfo to retrieve token
+  try {
+    dispatch({
+      type: EMPLOYEE_DELETE_REQUEST,
+    });
+
+    // const {
+    //   userLogin: { userInfo },
+    // } = getState();
+    //* not reading my config in delete */
+    // const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
+
+    await axios.delete(`/api/employees/${id}`);
+
+    dispatch({ type: EMPLOYEE_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };

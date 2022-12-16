@@ -32,12 +32,13 @@ const employeeSchema = mongoose.Schema({
     required: true,
   },
   skills: [
-    skillSchema,
-    // {
-    //   type: mongoose.Schema.Types.ObjectId, ** not sure why this did not work
-    //   required: false,
-    //   ref: 'Skills',
-    // },
+    // skillSchema,
+    // ** not sure why this did not work
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Skills',
+    },
   ],
   active: {
     type: Boolean,
