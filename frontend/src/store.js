@@ -4,11 +4,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   employeesListReducer,
   employeeDeleteReducer,
+  employeeCreateReducer,
 } from './reducers/employeeReducer';
 import { userLoginReducer } from './reducers/userReducer';
 
 const reducer = combineReducers({
   employeeList: employeesListReducer,
+  createEmployee: employeeCreateReducer,
   deleteEmployee: employeeDeleteReducer,
   userLogin: userLoginReducer,
 });

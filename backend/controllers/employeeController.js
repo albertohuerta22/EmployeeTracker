@@ -59,27 +59,85 @@ const getSingleEmployee = asyncHandler(async (req, res) => {
 //route: POST /api/employees
 //access: private
 const createEmployee = asyncHandler(async (req, res) => {
-  const employee = new Employee({
-    firstName: 'Cody',
-    lastName: 'Smith',
-    dob: '01-01-01',
-    email: 'codysmith@email.com',
-    active: true,
-    age: 21,
-    skills: [],
+  const { firstName, lastName, dob, email, active, age } = req.body;
+
+  const employeeExist = await Employee.findOne({ email: email });
+
+  if (employeeExist) {
+    res.status(400);
+    throw new Error('User already exist');
+  }
+
+  const employee = await Employee.create({
+    firstName,
+    lastName,
+    dob,
+    email,
+    active,
+    age,
   });
 
-  const skills = await Skill.create({
-    name: 'python',
-    description: 'high',
-    employee: employee._id,
-  });
+  if (employee) {
+    res.status(201).json({
+      _id: employee._id,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      email: employee.email,
+      dob: employee.dob,
+      age: employee.age,
+      active: employee.active,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
+  }
 
-  await employee.skills.push(skills);
+  // const employee = new Employee({
+  //   firstName: firstName,
+  //   lastName: lastName,
+  //   dob: dob,
+  //   email: email,
+  //   active: active,
+  //   age: age,
+  //   skills: [],
+  // });
 
-  const createdEmployee = await employee.save();
-  res.status(201).json(createdEmployee);
+  // const skills = await Skill.create({
+  //   name: 'python',
+  //   description: 'high',
+  //   employee: employee._id,
+  // });
+
+  // await employee.skills.push(skills);
+
+  // const createdEmployee = await employee.save();
+  // res.status(201).json(createdEmployee);
 });
+//description: CREATE employee this should be UPDATE
+//route: POST /api/employees
+//access: private
+// const createEmployee = asyncHandler(async (req, res) => {
+//   const employee = new Employee({
+//     firstName: 'Cody',
+//     lastName: 'Smith',
+//     dob: '01-01-01',
+//     email: 'codysmith@email.com',
+//     active: true,
+//     age: 21,
+//     skills: [],
+//   });
+
+//   const skills = await Skill.create({
+//     name: 'python',
+//     description: 'high',
+//     employee: employee._id,
+//   });
+
+//   await employee.skills.push(skills);
+
+//   const createdEmployee = await employee.save();
+//   res.status(201).json(createdEmployee);
+// });
 
 //description: UPDATE employee
 //route: PUT /api/employees/:id

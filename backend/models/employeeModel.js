@@ -17,19 +17,19 @@ const employeeSchema = mongoose.Schema({
 
   firstName: {
     type: String,
-    required: true,
+    // required: true,
   },
   lastName: {
     type: String,
-    required: true,
+    // required: true,
   },
   dob: {
     type: Date,
-    required: true,
+    // required: true,
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   skills: [
     // skillSchema,
@@ -42,11 +42,11 @@ const employeeSchema = mongoose.Schema({
   ],
   active: {
     type: Boolean,
-    required: true,
+    // required: true,
   },
   age: {
     type: Number,
-    required: true,
+    // required: true,
   },
 });
 

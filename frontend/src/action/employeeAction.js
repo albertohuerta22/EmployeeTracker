@@ -8,6 +8,12 @@ import {
   EMPLOYEE_DELETE_REQUEST,
   EMPLOYEE_DELETE_SUCCESS,
   EMPLOYEE_DELETE_FAIL,
+  EMPLOYEE_UPDATE_REQUEST,
+  EMPLOYEE_UPDATE_SUCCESS,
+  EMPLOYEE_UPDATE_FAIL,
+  EMPLOYEE_CREATE_REQUEST,
+  EMPLOYEE_CREATE_SUCCESS,
+  EMPLOYEE_CREATE_FAIL,
 } from '../constants/employeeConstants';
 
 export const listEmployees = () => async (dispatch) => {
@@ -44,6 +50,31 @@ export const deleteEmployee = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: EMPLOYEE_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createEmployee = (employee) => async (dispatch) => {
+  try {
+    dispatch({ type: EMPLOYEE_CREATE_REQUEST });
+    console.log(employee);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.post(`/api/employees`, employee);
+
+    dispatch({ type: EMPLOYEE_CREATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_CREATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
