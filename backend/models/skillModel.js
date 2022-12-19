@@ -10,7 +10,7 @@ const skillSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  emplyee: {
+  employee: {
     type: Schema.Types.ObjectId,
     ref: 'Employee',
   },

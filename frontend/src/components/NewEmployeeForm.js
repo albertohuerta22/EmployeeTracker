@@ -19,10 +19,23 @@ const NewEmployeeForm = () => {
   const [dob, setDOB] = useState('');
   const [age, setAge] = useState('');
   const [active, setActive] = useState('');
+  const [skill, setSkill] = useState('');
+  const [description, setDescription] = useState('');
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createEmployee({ firstName, lastName, email, dob, age, active }));
+    dispatch(
+      createEmployee({
+        firstName,
+        lastName,
+        email,
+        dob,
+        age,
+        active,
+        skill,
+        description,
+      })
+    );
     // navigate('/list');
   };
 
@@ -82,6 +95,24 @@ const NewEmployeeForm = () => {
             placeholder="Enter active status"
             value={active}
             onChange={(e) => setActive(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Skill</Form.Label>
+          <Form.Control
+            type="skill"
+            placeholder="Enter skill"
+            value={skill}
+            onChange={(e) => setSkill(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Skill Description</Form.Label>
+          <Form.Control
+            type="description"
+            placeholder="Enter skill description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></Form.Control>
         </Form.Group>
 

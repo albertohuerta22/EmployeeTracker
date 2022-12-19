@@ -24,4 +24,9 @@ const addSkills = asyncHanlder(async (req, res) => {
   }
 });
 
-export { addSkills };
+const getSkills = asyncHanlder(async (req, res) => {
+  const skills = await Skill.find({});
+  res.json(skills);
+});
+
+export { getSkills, addSkills };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { LinkContainer } from 'react-router-bootstrap';
-// import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Table, Button, Row, Col, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -14,13 +14,18 @@ import NewEmployeeForm from '../components/NewEmployeeForm';
 import { listEmployees, deleteEmployee } from '../action/employeeAction';
 
 const ListScreen = () => {
+  const [deletet, setDeletet] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const skillList = useSelector((state) => state.skillList);
+  const { skills } = skillList;
 
   // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   // console.log(employees);

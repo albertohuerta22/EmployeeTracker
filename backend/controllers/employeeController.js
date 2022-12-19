@@ -28,15 +28,17 @@ const getEmployees = asyncHandler(async (req, res) => {
 
 const getAllEmployees = asyncHandler(async (req, res) => {
   try {
-    const employees = await Employee.find().populate({
-      path: 'Skill',
-      populate: {
-        path: 'skills',
-        // model: 'Skill',
-      },
-      strictPopulate: false,
-      select: 'name description',
-    });
+    const employees = await Employee.find()
+      .populate({
+        path: 'Skill',
+        populate: {
+          path: 'skills',
+          // model: 'Skill',
+        },
+        strictPopulate: false,
+        select: 'name description',
+      })
+      .exec();
     res.status(200).send({ employees: [...employees], success: true });
 
     res.json(employees);
@@ -59,7 +61,8 @@ const getSingleEmployee = asyncHandler(async (req, res) => {
 //route: POST /api/employees
 //access: private
 const createEmployee = asyncHandler(async (req, res) => {
-  const { firstName, lastName, dob, email, active, age } = req.body;
+  const { firstName, lastName, dob, email, active, age, skill, description } =
+    req.body;
 
   const employeeExist = await Employee.findOne({ email: email });
 
@@ -77,7 +80,25 @@ const createEmployee = asyncHandler(async (req, res) => {
     age,
   });
 
-  if (employee) {
+  if (employee && skill) {
+    const newSkill = await Skill.create({
+      name: skill,
+      description: description,
+      employee: employee._id,
+    });
+    savedSkill = await newSkill.save();
+
+    // employee.skills = [
+    //   Skill.populate({
+    //     path: 'Skill',
+    //     strictPopulate: false,
+    //     select: 'name description',
+    //   }),
+    // ];
+    // console.log(employee);
+  }
+
+  if (employee && skill) {
     res.status(201).json({
       _id: employee._id,
       firstName: employee.firstName,
@@ -91,27 +112,6 @@ const createEmployee = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Invalid user data');
   }
-
-  // const employee = new Employee({
-  //   firstName: firstName,
-  //   lastName: lastName,
-  //   dob: dob,
-  //   email: email,
-  //   active: active,
-  //   age: age,
-  //   skills: [],
-  // });
-
-  // const skills = await Skill.create({
-  //   name: 'python',
-  //   description: 'high',
-  //   employee: employee._id,
-  // });
-
-  // await employee.skills.push(skills);
-
-  // const createdEmployee = await employee.save();
-  // res.status(201).json(createdEmployee);
 });
 //description: CREATE employee this should be UPDATE
 //route: POST /api/employees
@@ -143,7 +143,7 @@ const createEmployee = asyncHandler(async (req, res) => {
 //route: PUT /api/employees/:id
 //access private
 const updateEmployee = asyncHandler(async (req, res) => {
-  const { firstName, lastName, dob, email, active, age, skills } = req.body;
+  const { firstName, lastName, dob, email, active, age } = req.body;
 
   const employee = await Employee.findById(req.params.id);
 
@@ -154,13 +154,21 @@ const updateEmployee = asyncHandler(async (req, res) => {
     employee.email = email;
     employee.active = active;
     employee.age = age;
-    employee.skills = skills;
+    employee.skills = [];
+
+    // const skills = await Skill.create({
+    //   name: skill,
+    //   description: description,
+    //   employee: employee._id,
+    // });
+
+    await employee.skills.push(skill, description);
 
     const updatedEmployee = await employee.save();
     res.json(updatedEmployee);
   } else {
     res.status(404);
-    throw new Error('Product not found');
+    throw new Error('Employee not found');
   }
 });
 

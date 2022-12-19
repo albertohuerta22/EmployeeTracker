@@ -61,7 +61,6 @@ export const deleteEmployee = (id) => async (dispatch, getState) => {
 export const createEmployee = (employee) => async (dispatch) => {
   try {
     dispatch({ type: EMPLOYEE_CREATE_REQUEST });
-    console.log(employee);
 
     const config = {
       headers: {
