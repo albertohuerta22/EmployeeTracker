@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 // import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Table, Button, Row, Col, Form } from 'react-bootstrap';
+// import { Table, Button, Row, Col, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import overlayFactory from 'react-bootstrap-table2-overlay';
+// import overlayFactory from 'react-bootstrap-table2-overlay';
 
 //imported components
 import NewEmployeeForm from '../components/NewEmployeeForm';
@@ -18,23 +18,22 @@ const ListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const employeeList = useSelector((state) => state.employeeList);
-  const { loading, error, employees } = employeeList;
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const employeeList = useSelector((state) => state.employeeList);
+  const { loading, error, employees } = employeeList;
+  console.log(employees);
   const skillList = useSelector((state) => state.skillList);
   const { skills } = skillList;
 
-  // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  // console.log(employees);
+  //if not logged in protect middleware will prevent screen
   useEffect(() => {
     dispatch(listEmployees());
   }, [dispatch, listEmployees]);
 
-  // fail safe
   const deleteHandler = (id) => {
+    // fail safe
     if (window.confirm('Are you sure')) {
       dispatch(deleteEmployee(id));
     }

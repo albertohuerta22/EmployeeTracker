@@ -21,7 +21,6 @@ export const employeesListReducer = (state = { employees: [] }, action) => {
       };
     case EMPLOYEE_LIST_FAIL:
       return { loading: false, error: action.payload };
-
     default:
       return state;
   }

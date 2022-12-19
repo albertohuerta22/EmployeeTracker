@@ -16,18 +16,34 @@ import {
   EMPLOYEE_CREATE_FAIL,
 } from '../constants/employeeConstants';
 
+const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo'));
+
 export const listEmployees = () => async (dispatch) => {
   try {
     //request made
     dispatch({ type: EMPLOYEE_LIST_REQUEST });
+
+    const { token } = userInfoFromStorage;
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
     //request successful
-    const { data } = await axios.get(`/api/employees`);
+    const { data } = await axios.get(`/api/employees`, config);
 
     dispatch({ type: EMPLOYEE_LIST_SUCCESS, payload: data });
-
     //request unsuccessful
   } catch (error) {
-    dispatch({ type: EMPLOYEE_LIST_FAIL, payload: error.message });
+    dispatch({
+      type: EMPLOYEE_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 

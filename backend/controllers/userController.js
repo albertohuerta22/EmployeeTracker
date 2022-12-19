@@ -42,7 +42,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 //description: Auth user & assign token
 //route: Post /api/users/login
 //access Public
-const authUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
   //looks for user with exact username
