@@ -23,7 +23,6 @@ const ListScreen = () => {
 
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
-  console.log(employees);
   const skillList = useSelector((state) => state.skillList);
   const { skills } = skillList;
 
