@@ -84,12 +84,36 @@ export const createEmployee = (employee) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(`/api/employees`, employee);
+    const { data } = await axios.post(`/api/employees`, employee, config);
 
     dispatch({ type: EMPLOYEE_CREATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: EMPLOYEE_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateEmployee = (employee) => async (dispatch) => {
+  try {
+    dispatch({ type: EMPLOYEE_UPDATE_REQUEST });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.put(`/api/employees`, employee, config);
+
+    dispatch({ type: EMPLOYEE_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

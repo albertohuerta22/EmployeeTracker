@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
 //imported components
 import FormContainer from './FormContainer';
@@ -11,7 +10,6 @@ import { createEmployee } from '../action/employeeAction.js';
 
 const NewEmployeeForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');

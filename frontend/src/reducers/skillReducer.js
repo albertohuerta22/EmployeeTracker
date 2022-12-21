@@ -5,14 +5,11 @@ import {
 } from '../constants/skillConstants';
 
 export const skillsListReducer = (state = { skills: [] }, action) => {
-  switch (action) {
+  switch (action.type) {
     case SKILL_LIST_REQUEST:
       return { loading: true, skills: [] };
     case SKILL_LIST_SUCCESS:
-      return {
-        loading: false,
-        employees: action.payload,
-      };
+      return { loading: false, skills: action.payload };
     case SKILL_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

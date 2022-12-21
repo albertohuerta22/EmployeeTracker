@@ -16,12 +16,16 @@ import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 //  /api/employees
-router.route('/').get(protect, getEmployees).post(createEmployee);
+router
+  .route('/')
+  .get(protect, getEmployees)
+  .post(createEmployee)
+  .put(updateEmployee);
 
 // /api/employees/:id
 router
   .route('/:id')
   .get(protect, getSingleEmployee)
-  .put(updateEmployee)
+
   .delete(deleteEmployee);
 export default router;

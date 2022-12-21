@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
 import ListScreen from './screens/ListScreen';
 import Header from './components/Header';
+import AltrenateTable from './screens/AlternateTable';
+import EditScreen from './screens/EditScreen';
 
 function App() {
   return (
@@ -10,7 +12,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/list" element={<ListScreen />} />
+        <Route path="/list" element={<AltrenateTable />} />
+        <Route path="/list/:id" element={<EditScreen />} />
       </Routes>
     </Router>
   );

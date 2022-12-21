@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 // import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
 // import { Table, Button, Row, Col, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -11,20 +10,23 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 import NewEmployeeForm from '../components/NewEmployeeForm';
 
 //imported actions
-import { listEmployees, deleteEmployee } from '../action/employeeAction';
+import {
+  listEmployees,
+  deleteEmployee,
+  updateEmployee,
+} from '../action/employeeAction';
 
 const ListScreen = () => {
-  const [deletet, setDeletet] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  // const userLogin = useSelector((state) => state.userLogin);
+  // const { userInfo } = userLogin;
 
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
-  const skillList = useSelector((state) => state.skillList);
-  const { skills } = skillList;
+
+  // const skillList = useSelector((state) => state.skillList);
+  // const { skills } = skillList;
 
   //if not logged in protect middleware will prevent screen
   useEffect(() => {
@@ -38,6 +40,11 @@ const ListScreen = () => {
     }
   };
 
+  const saveHandler = (row) => {
+    // console.log(row);
+    dispatch(updateEmployee(row));
+  };
+
   const columns = [
     { dataField: '_id', text: 'ID', editable: false },
     { dataField: 'firstName', text: 'First Name' },
@@ -48,16 +55,51 @@ const ListScreen = () => {
     { dataField: 'skills', text: 'Skill-ID', editable: false },
     { dataField: 'active', text: 'Active' },
     {
+      dataField: 'save',
+      text: 'Save',
+      // formatter: (cellContent, row) => {
+      //   // console.log(row);
+      //   return (
+      //     <button
+      //       onClick={
+      //         () =>
+      //           saveHandler({
+      //             id: row._id,
+      //             firstName: row.firstName,
+      //             lastName: row.lastName,
+      //             email: row.email,
+      //             dob: row.dob,
+      //             age: row.age,
+      //             skills: row.skills,
+      //             active: row.active,
+      //           })
+
+      //         // saveHandler(row.email)
+      //         // row.active()
+      //       }
+      //     >
+      //       Save
+      //     </button>
+      //   );
+      // },
+      editable: false,
+    },
+    {
       dataField: 'remove',
       text: 'Delete',
       formatter: (cellContent, row) => {
         return <button onClick={() => deleteHandler(row._id)}>Delete</button>;
       },
+      editable: false,
     },
   ];
 
   const cellEdit = cellEditFactory({
     mode: 'dbclick',
+    blurToSave: true,
+    afterSaveCell: (oldValue, newValue, row, column) => {
+      return saveHandler(row);
+    },
   });
 
   return (

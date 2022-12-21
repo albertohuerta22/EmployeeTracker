@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
 //imported actions
 import { logout } from '../action/userAction';
@@ -11,9 +11,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = useState({});
   const userInfoStorage = JSON.parse(localStorage.getItem('userInfo'));
-
-  const [userInfo, setUserInfo] = useState(userInfoStorage);
 
   useEffect(() => {
     if (!userInfoStorage) {
@@ -31,15 +30,15 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand>Employee List</Navbar.Brand>
+          <Navbar.Brand>
+            {userInfoStorage ? 'Employee List' : 'Welcome to Employee Table'}
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {userInfo ? (
-                <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
-              ) : (
-                ''
-              )}
+              <Nav.Link onClick={logoutHandler}>
+                {userInfoStorage ? 'Logout' : ''}
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -4,11 +4,11 @@ const skillSchema = mongoose.Schema({
   // GUID FIELD
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   employee: {
     type: Schema.Types.ObjectId,

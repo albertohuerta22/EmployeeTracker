@@ -8,6 +8,9 @@ import {
   EMPLOYEE_CREATE_REQUEST,
   EMPLOYEE_CREATE_SUCCESS,
   EMPLOYEE_CREATE_FAIL,
+  EMPLOYEE_UPDATE_REQUEST,
+  EMPLOYEE_UPDATE_SUCCESS,
+  EMPLOYEE_UPDATE_FAIL,
 } from '../constants/employeeConstants.js';
 
 export const employeesListReducer = (state = { employees: [] }, action) => {
@@ -46,6 +49,18 @@ export const employeeDeleteReducer = (state = {}, action) => {
     case EMPLOYEE_DELETE_SUCCESS:
       return { loading: false, success: true };
     case EMPLOYEE_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const employeeUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EMPLOYEE_UPDATE_REQUEST:
+      return { loading: true };
+    case EMPLOYEE_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case EMPLOYEE_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

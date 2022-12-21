@@ -20,17 +20,14 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
-  console.log(userInfo);
+  const { loading, error } = userLogin;
   //redirect if already logged in
-  // const redirect = location.search ? location.search.split('=')[1] : '/';
 
-  // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
+  //NEED TO REDIRECT IF ALREADY LOGGED IN FROM HOME SCREEN TO LIST
   useEffect(() => {
     if (userInfo) {
-      //     //setUserInfo(userInfo)
-      // navigate(redirect);
       navigate('/list');
     }
   }, [userInfo, navigate]);
@@ -39,8 +36,6 @@ const HomeScreen = () => {
     e.preventDefault();
     //Dispatch Login reducer
     dispatch(login(username, password));
-    //navigate to list screen
-    // navigate('/list');
   };
 
   return (

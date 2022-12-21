@@ -113,56 +113,31 @@ const createEmployee = asyncHandler(async (req, res) => {
     throw new Error('Invalid user data');
   }
 });
-//description: CREATE employee this should be UPDATE
-//route: POST /api/employees
-//access: private
-// const createEmployee = asyncHandler(async (req, res) => {
-//   const employee = new Employee({
-//     firstName: 'Cody',
-//     lastName: 'Smith',
-//     dob: '01-01-01',
-//     email: 'codysmith@email.com',
-//     active: true,
-//     age: 21,
-//     skills: [],
-//   });
-
-//   const skills = await Skill.create({
-//     name: 'python',
-//     description: 'high',
-//     employee: employee._id,
-//   });
-
-//   await employee.skills.push(skills);
-
-//   const createdEmployee = await employee.save();
-//   res.status(201).json(createdEmployee);
-// });
 
 //description: UPDATE employee
 //route: PUT /api/employees/:id
 //access private
 const updateEmployee = asyncHandler(async (req, res) => {
-  const { firstName, lastName, dob, email, active, age } = req.body;
-
-  const employee = await Employee.findById(req.params.id);
-
+  const { firstName, lastName, email, active, id, dob, skills, age } = req.body;
+  // console.log(id, firstName, lastName);
+  const employee = await Employee.findById(id);
   if (employee) {
+    console.log(employee);
+    employee.id = id;
     employee.firstName = firstName;
     employee.lastName = lastName;
-    employee.dob = dob;
     employee.email = email;
-    employee.active = active;
+    employee.dob = dob;
     employee.age = age;
-    employee.skills = [];
+    employee.skills = skills;
+    employee.active = active;
 
-    // const skills = await Skill.create({
+    // const skills = await Skill.updateOne({
     //   name: skill,
     //   description: description,
     //   employee: employee._id,
     // });
-
-    await employee.skills.push(skill, description);
+    // await employee.skills.push(skills.name, skills.description);
 
     const updatedEmployee = await employee.save();
     res.json(updatedEmployee);

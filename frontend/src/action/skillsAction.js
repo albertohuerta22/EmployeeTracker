@@ -13,6 +13,7 @@ export const listSkills = () => async (dispatch) => {
     const { data } = await axios.get('/api/skills');
 
     dispatch({ type: SKILL_LIST_SUCCESS, payload: data });
+    // console.log(data);
   } catch (error) {
     dispatch({
       type: SKILL_LIST_FAIL,
