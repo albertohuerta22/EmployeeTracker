@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 //imported actions
-import { logout } from '../action/userAction';
+import { logout } from '../action/userAction.js';
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
   const userInfoStorage = JSON.parse(localStorage.getItem('userInfo'));
 
-  useEffect(() => {
-    if (!userInfoStorage) {
-      setUserInfo(null);
-    }
-  }, [userInfoStorage]);
+  // useEffect(() => {
+  //   if (!userInfoStorage) {
+  //     setUserInfo(null);
+  //   }
+  // }, [userInfoStorage]);
 
   const logoutHandler = () => {
     localStorage.removeItem('userInfo');
@@ -27,7 +27,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header style={{ position: 'sticky', top: '0' }}>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <Navbar.Brand>

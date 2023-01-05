@@ -10,7 +10,7 @@ const addSkills = asyncHanlder(async (req, res) => {
 
   if (name && description === undefined) {
     res.status(400);
-    throw new Error('No order items');
+    throw new Error('skills');
   } else {
     const skill = new Skill({
       name,
@@ -26,7 +26,12 @@ const addSkills = asyncHanlder(async (req, res) => {
 
 const getSkills = asyncHanlder(async (req, res) => {
   const skills = await Skill.find({});
-  res.json(skills);
+  if (skills) {
+    res.json(skills);
+  } else {
+    res.status(401);
+    throw new Error('No Skills found');
+  }
 });
 
 export { getSkills, addSkills };

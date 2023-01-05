@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+// import Skill from './skillModel';
 
 const skillSchema = mongoose.Schema({
   // GUID FIELD
@@ -37,7 +38,7 @@ const employeeSchema = mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Skills',
+      ref: 'Skill',
     },
   ],
   active: {

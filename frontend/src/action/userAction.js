@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import redis from 'redis';
 
 //import constants
 import {
@@ -6,8 +7,9 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGOUT,
-} from '../constants/userConstants';
+} from '../constants/userConstants.js';
 
+// const client = redis.createClient();
 export const login = (username, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -27,6 +29,8 @@ export const login = (username, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     localStorage.setItem('userInfo', JSON.stringify(data));
+
+    // client.set('userinfo', 3600, data);
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,

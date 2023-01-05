@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { Button, Form } from 'react-bootstrap';
 
 //imported reducer
-import { login } from '../action/userAction';
+import { login } from '../action/userAction.js';
 
 //imported components
-import Message from '../components/Message';
-import Loader from '../components/Loader';
+import Message from '../components/Message.js';
+import Loader from '../components/Loader.js';
 
 const HomeScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -39,12 +39,12 @@ const HomeScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h1>Sign In</h1>
+    <div className="login-container">
+      <h1 style={{ textAlign: 'center' }}>Sign In</h1>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="username">
+      <Form onSubmit={submitHandler} style={{ width: '100%' }}>
+        <Form.Group controlId="username" className="form-fill">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="username"
@@ -53,7 +53,8 @@ const HomeScreen = () => {
             onChange={(e) => setUsername(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group controlId="password" className="form-fill">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -62,12 +63,14 @@ const HomeScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-
-        <Button type="submit" variant="primary">
-          Sign In
-        </Button>
+        <br />
+        <div className="d-grid gap-2">
+          <Button type="submit" variant="primary">
+            Sign In
+          </Button>
+        </div>
       </Form>
-    </FormContainer>
+    </div>
   );
 };
 

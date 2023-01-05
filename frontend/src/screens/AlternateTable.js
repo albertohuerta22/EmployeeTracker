@@ -1,26 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Form } from 'react-bootstrap';
+import { Table, Button, Pagination } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Paginate from 'react-bootstrap/Pagination';
 // import overlayFactory from 'react-bootstrap-table2-overlay';
 
 //imported components
-import NewEmployeeForm from '../components/NewEmployeeForm';
+import NewEmployeeForm from '../components/NewEmployeeForm.js';
+import Message from '../components/Message.js';
+import Loader from '../components/Loader.js';
+import NewModel from '../components/NewModel.js';
+// import Paginate from '../components/Paginate.js';
 
 //imported actions
-import {
-  listEmployees,
-  deleteEmployee,
-  updateEmployee,
-} from '../action/employeeAction';
-import { listSkills } from '../action/skillsAction';
+import { listEmployees, deleteEmployee } from '../action/employeeAction.js';
+import { listSkills } from '../action/skillsAction.js';
 
 const AlternateTable = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // const userLogin = useSelector((state) => state.userLogin);
-  // const { userInfo } = userLogin;
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false); //handles modal
+  const handleShow = () => setShow(true);
 
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
@@ -43,14 +48,11 @@ const AlternateTable = () => {
     // fail safe
     if (window.confirm('Are you sure')) {
       dispatch(deleteEmployee(id));
+      navigate('/');
     }
   };
-
-  const saveHandler = (id) => {
-    if (window.confirm('Save?')) {
-      console.log('saved');
-      //   dispatch(updateEmployee(id));
-    }
+  const editHandler = (employee) => {
+    navigate(`/list/${employee.id}`, { state: employee });
   };
 
   const listScreen = (id) => {
@@ -58,9 +60,24 @@ const AlternateTable = () => {
     // navigate = ()
   };
 
+  let active = 3;
+  let items = [];
+  if (employees) {
+    for (let number = 1; number <= employees.length; number++) {
+      // console.log(employees[number]._id);
+      items.push(
+        <Pagination.Item key={number} active={number === active}>
+          {employees[number]}
+        </Pagination.Item>
+      );
+    }
+  }
+
   return (
     <>
-      <Table striped bordered hover>
+      {error && <Message variant="danger">{error}</Message>}
+      {loading && <Loader />}
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>ID</th>
@@ -85,33 +102,58 @@ const AlternateTable = () => {
                 <td>{employee.email}</td>
                 <td>{employee.dob}</td>
                 <td>{employee.age}</td>
-                <td>{employee.skills}</td>
 
                 <td>
                   {skills.map((skill) => {
-                    console.log(skill, employee);
-                    if (skill.employee === employee._id) {
-                      return skill.name;
+                    for (let key in skill) {
+                      if (employee._id === skill[key]) {
+                        return skill._id;
+                      }
                     }
+                    return null;
                   })}
                 </td>
                 <td>
                   {skills.map((skill) => {
-                    console.log(skill, employee);
+                    for (let key in skill) {
+                      if (employee._id === skill[key]) {
+                        return skill.name;
+                      }
+                    }
+                    return null;
+                  })}
+                </td>
+                <td>
+                  {skills.map((skill) => {
+                    // console.log(skill, employee);
                     if (skill.employee === employee._id) {
                       return skill.description;
                     }
+                    return null;
                   })}
                 </td>
 
                 <td>{employee.active.toString()}</td>
                 <td>
-                  <LinkContainer to={`/list/${employee._id}`}>
-                    <Button variant="light">
-                      {/* //download bootstrap for trash icon */}
-                      <i className="fa fa-edit">Edit</i>
-                    </Button>
-                  </LinkContainer>
+                  {/* <LinkContainer to={`/list/${employee._id}`}> */}
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      editHandler({
+                        id: employee._id,
+                        email: employee.email,
+                        firstName: employee.firstName,
+                        lastName: employee.lastName,
+                        age: employee.age,
+                        active: employee.active,
+                        dob: employee.dob,
+                      })
+                    }
+                  >
+                    {/* //download bootstrap for trash icon */}
+                    <i className="fa fa-edit">Edit</i>
+                  </Button>
+                  {/* </LinkContainer> */}
                 </td>
                 <td>
                   <Button
@@ -126,6 +168,42 @@ const AlternateTable = () => {
             ))}
         </tbody>
       </Table>
+      <>
+        {/* <LinkContainer
+          to={`/newemployee`}
+          style={{ float: 'right', marginRight: '20px' }}
+        >
+          <Button variant="success">+ New Employee</Button>
+          {/* <NewEmployeeForm className="" /> */}
+        {/* <//LinkContainer> */}
+        <Button
+          variant="success"
+          onClick={handleShow}
+          style={{ float: 'right', marginRight: '20px' }}
+        >
+          + New Employee
+        </Button>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          keyboard={false}
+          backdrop="static"
+          dialogClassName={'primaryModal'}
+          size="lg"
+          className="modal custom fade"
+          role="dialog"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>New Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <NewEmployeeForm />
+          </Modal.Body>
+        </Modal>
+      </>
+      {/* <div>
+        <Pagination>{items}</Pagination>
+      </div> */}
     </>
   );
 };

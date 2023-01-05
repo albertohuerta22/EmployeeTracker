@@ -4,7 +4,7 @@ import {
   SKILL_LIST_REQUEST,
   SKILL_LIST_SUCCESS,
   SKILL_LIST_FAIL,
-} from '../constants/skillConstants';
+} from '../constants/skillConstants.js';
 
 export const listSkills = () => async (dispatch) => {
   try {

@@ -14,7 +14,10 @@ import {
   EMPLOYEE_CREATE_REQUEST,
   EMPLOYEE_CREATE_SUCCESS,
   EMPLOYEE_CREATE_FAIL,
-} from '../constants/employeeConstants';
+  EMPLOYEE_DETAILS_REQUEST,
+  EMPLOYEE_DETAILS_SUCCESS,
+  EMPLOYEE_DETAILS_FAIL,
+} from '../constants/employeeConstants.js';
 
 const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -39,6 +42,34 @@ export const listEmployees = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: EMPLOYEE_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const listEmployeeDetails = (id) => async (dispatch) => {
+  try {
+    //request made
+    dispatch({ type: EMPLOYEE_DETAILS_REQUEST });
+
+    const { token } = userInfoFromStorage;
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    //request successful
+    const { data } = await axios.get(`/api/employees/${id}`, config);
+
+    dispatch({ type: EMPLOYEE_DETAILS_SUCCESS, payload: data });
+    //request unsuccessful
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

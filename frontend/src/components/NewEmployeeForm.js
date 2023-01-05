@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Image } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 //imported components
-import FormContainer from './FormContainer';
+import FormContainer from './FormContainer.js';
 
 //imported from actions
 import { createEmployee } from '../action/employeeAction.js';
 
 const NewEmployeeForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [alert, setAlert] = useState(false);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -34,13 +39,18 @@ const NewEmployeeForm = () => {
         description,
       })
     );
-    // navigate('/list');
+    setAlert(true);
   };
 
   return (
-    <FormContainer>
-      <h1>New Employee</h1>
-      <Form onSubmit={submitHandler}>
+    <div className="form-container">
+      {/* <Link to="/list" className="btn btn-ligth my-3">
+        Go Back
+      </Link> */}
+      {alert ? navigate('/') : ''}
+      {/* <FormContainer> */}
+      {/* <h1>New Employee</h1> */}
+      <Form onSubmit={submitHandler} className="form-new-employee">
         <Form.Group controlId="newEmployee">
           <Form.Label>First Name</Form.Label>
           <Form.Control
@@ -71,7 +81,7 @@ const NewEmployeeForm = () => {
         <Form.Group>
           <Form.Label>D.O.B</Form.Label>
           <Form.Control
-            type="dob"
+            type="date"
             placeholder="Enter D.O.B."
             value={dob}
             onChange={(e) => setDOB(e.target.value)}
@@ -113,13 +123,24 @@ const NewEmployeeForm = () => {
             onChange={(e) => setDescription(e.target.value)}
           ></Form.Control>
         </Form.Group>
-
-        <Button type="submit" variant="primary">
-          Submit Employee
-        </Button>
+        <br />
+        <div className="d-grid gap-2 px-8">
+          <Button type="submit" variant="primary">
+            Submit Employee
+          </Button>
+        </div>
       </Form>
-    </FormContainer>
+      {/* </FormContainer> */}
+      <div className="avatar">
+        <Image
+          rounded
+          src="https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
+        ></Image>
+      </div>
+    </div>
   );
 };
 
 export default NewEmployeeForm;
+
+//you were working on edit employee and flex-grow 1:1 ratio

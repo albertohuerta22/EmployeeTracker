@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+// import connectRedis from './config/redis.js';
+// import redis from 'redis';
 //imported routes
 import userRoutes from './routes/userRoutes.js';
 import employeeRoutes from './routes/employeeRoutes.js';
@@ -12,6 +14,8 @@ import skillRoutes from './routes/skillRoutes.js';
 dotenv.config();
 
 connectDB();
+
+// const client = redis.createClient(process.env.REDIS_PORT);
 
 const app = express();
 

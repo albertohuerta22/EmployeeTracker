@@ -11,6 +11,9 @@ import {
   EMPLOYEE_UPDATE_REQUEST,
   EMPLOYEE_UPDATE_SUCCESS,
   EMPLOYEE_UPDATE_FAIL,
+  EMPLOYEE_DETAILS_REQUEST,
+  EMPLOYEE_DETAILS_SUCCESS,
+  EMPLOYEE_DETAILS_FAIL,
 } from '../constants/employeeConstants.js';
 
 export const employeesListReducer = (state = { employees: [] }, action) => {
@@ -23,6 +26,22 @@ export const employeesListReducer = (state = { employees: [] }, action) => {
         employees: action.payload,
       };
     case EMPLOYEE_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const employeeDetailsReducer = (state = { employee: {} }, action) => {
+  // can include skils []
+  switch (action.type) {
+    case EMPLOYEE_DETAILS_REQUEST:
+      return { loading: true, employees: [] };
+    case EMPLOYEE_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        employees: action.payload,
+      };
+    case EMPLOYEE_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

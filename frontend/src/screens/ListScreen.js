@@ -7,14 +7,14 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 // import overlayFactory from 'react-bootstrap-table2-overlay';
 
 //imported components
-import NewEmployeeForm from '../components/NewEmployeeForm';
+import NewEmployeeForm from '../components/NewEmployeeForm.js';
 
 //imported actions
 import {
   listEmployees,
   deleteEmployee,
   updateEmployee,
-} from '../action/employeeAction';
+} from '../action/employeeAction.js';
 
 const ListScreen = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const ListScreen = () => {
   // const { userInfo } = userLogin;
 
   const employeeList = useSelector((state) => state.employeeList);
-  const { loading, error, employees } = employeeList;
+  const { employees } = employeeList;
 
   // const skillList = useSelector((state) => state.skillList);
   // const { skills } = skillList;
