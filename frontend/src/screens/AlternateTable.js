@@ -12,6 +12,7 @@ import NewEmployeeForm from '../components/NewEmployeeForm.js';
 import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
 import NewModel from '../components/NewModel.js';
+import useWindowDimensions from '../components/FindWindow.js';
 // import Paginate from '../components/Paginate.js';
 
 //imported actions
@@ -21,6 +22,8 @@ import { listSkills } from '../action/skillsAction.js';
 const AlternateTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { width, height } = useWindowDimensions();
 
   const [show, setShow] = useState(false);
 
@@ -151,7 +154,11 @@ const AlternateTable = () => {
                     }
                   >
                     {/* //download bootstrap for trash icon */}
-                    <i className="fa fa-edit">Edit</i>
+                    {width < 1600 ? (
+                      <i className="bi bi-pencil-square"></i>
+                    ) : (
+                      'Edit'
+                    )}
                   </Button>
                   {/* </LinkContainer> */}
                 </td>
@@ -160,8 +167,11 @@ const AlternateTable = () => {
                     variant="danger"
                     onClick={() => deleteHandler(employee._id)}
                   >
-                    {/* //download bootstrap for trash icon */}
-                    <i className="fa fa-trash">Delete</i>
+                    {width < 1600 ? (
+                      <i className="bi bi-trash3-fill"></i>
+                    ) : (
+                      'Delete'
+                    )}
                   </Button>
                 </td>
               </tr>

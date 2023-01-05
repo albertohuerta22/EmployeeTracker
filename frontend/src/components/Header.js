@@ -12,7 +12,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   // const [userInfo, setUserInfo] = useState({});
-  const userInfoStorage = JSON.parse(localStorage.getItem('userInfo'));
+  const userInfoStorage = JSON.parse(sessionStorage.getItem('userInfo'));
 
   // useEffect(() => {
   //   if (!userInfoStorage) {
@@ -21,7 +21,7 @@ const Header = () => {
   // }, [userInfoStorage]);
 
   const logoutHandler = () => {
-    localStorage.removeItem('userInfo');
+    sessionStorage.removeItem('userInfo');
     dispatch(logout());
     navigate('/');
   };

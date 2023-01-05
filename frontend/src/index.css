@@ -1,3 +1,6 @@
+
+
+
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
     background-color: yellow !important;
 }
@@ -17,11 +20,15 @@
     top: 30%;
     left: 40%;
     padding: 20px;
-    /* background-color: gray; */
+    background-color: #fff;
+    
+    
+   
 }
 
 .form-fill {
-    width: 100%
+    width: 100%;
+    
 }
 
 td {
@@ -88,5 +95,19 @@ td {
 
 .edit-avatar {
     flex: .5;
-    background-color: gray;
+    /* background-color: gray; */
+}
+
+.overlay {
+   position:fixed;
+   margin-left: 20%;
+  --mask:
+    radial-gradient(173.95px at 246.00px 50%,#000 99%,#0000 101%) 0 calc(50% - 246px)/100% 492px,
+    radial-gradient(173.95px at -123px 50%,#0000 99%,#000 101%) 123px 50%/100% 492px repeat-y;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+          background-color: #4e93c9;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
 }

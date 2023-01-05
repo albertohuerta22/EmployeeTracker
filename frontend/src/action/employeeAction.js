@@ -19,7 +19,7 @@ import {
   EMPLOYEE_DETAILS_FAIL,
 } from '../constants/employeeConstants.js';
 
-const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo'));
+const userInfoFromStorage = JSON.parse(sessionStorage.getItem('userInfo'));
 
 export const listEmployees = () => async (dispatch) => {
   try {

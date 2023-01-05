@@ -23,7 +23,7 @@ const HomeScreen = () => {
   const { loading, error } = userLogin;
   //redirect if already logged in
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
 
   //NEED TO REDIRECT IF ALREADY LOGGED IN FROM HOME SCREEN TO LIST
   useEffect(() => {
@@ -39,38 +39,41 @@ const HomeScreen = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1 style={{ textAlign: 'center' }}>Sign In</h1>
-      {error && <Message variant="danger">{error}</Message>}
-      {loading && <Loader />}
-      <Form onSubmit={submitHandler} style={{ width: '100%' }}>
-        <Form.Group controlId="username" className="form-fill">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="username"
-            placeholder="Enter Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+    <>
+      <div className="overlay"></div>
+      <div className="login-container">
+        <h1 style={{ textAlign: 'center' }}>Sign In</h1>
+        {error && <Message variant="danger">{error}</Message>}
+        {loading && <Loader />}
+        <Form onSubmit={submitHandler} style={{ width: '100%' }}>
+          <Form.Group controlId="username" className="form-fill">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="username"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
 
-        <Form.Group controlId="password" className="form-fill">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <br />
-        <div className="d-grid gap-2">
-          <Button type="submit" variant="primary">
-            Sign In
-          </Button>
-        </div>
-      </Form>
-    </div>
+          <Form.Group controlId="password" className="form-fill">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <br />
+          <div className="d-grid gap-2">
+            <Button type="submit" variant="primary">
+              Sign In
+            </Button>
+          </div>
+        </Form>
+      </div>
+    </>
   );
 };
 

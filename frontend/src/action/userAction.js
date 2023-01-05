@@ -28,7 +28,7 @@ export const login = (username, password) => async (dispatch) => {
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    sessionStorage.setItem('userInfo', JSON.stringify(data));
 
     // client.set('userinfo', 3600, data);
   } catch (error) {
@@ -43,6 +43,6 @@ export const login = (username, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo');
+  sessionStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
 };
