@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Form, Button, Image } from 'react-bootstrap';
+import { Form, Button, Image, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../components/Message.js';
@@ -12,7 +12,7 @@ import { updateEmployee } from '../action/employeeAction.js';
 
 const EditScreen = () => {
   const { state: employee } = useLocation();
-  console.log(employee);
+  // console.log(employee);
 
   const navigate = useNavigate();
 
@@ -94,78 +94,110 @@ const EditScreen = () => {
           style={{ padding: '20px', margin: '20px', flex: '1' }}
         >
           <Form.Group controlId="firstName">
-            {/* <Form.Label>First Name</Form.Label> */}
-            <Form.Control
-              type="firstName"
-              placeholder="Enter First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="firstName"
+              label="Full Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="firstName"
+                placeholder="Enter First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="lastName">
-            {/* <Form.Label>Last Name</Form.Label> */}
-            <Form.Control
-              type="lastName"
-              placeholder="Enter Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="lastName"
+              label="Last Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="lastName"
+                placeholder="Enter Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="email">
-            {/* <Form.Label>Email Address</Form.Label> */}
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={employee.email}
-              disabled
-              // onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel controlId="email" label="email" className="mb-3">
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={employee.email}
+                disabled
+                // onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="dob">
-            {/* <Form.Label>D.O.B.</Form.Label> */}
-            <Form.Control
-              type="date"
-              placeholder="D.O.B."
-              value={dob}
-              onChange={(e) => setDOB(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="dob"
+              label="Date of Birth"
+              className="mb-3"
+            >
+              <Form.Control
+                type="date"
+                placeholder="D.O.B."
+                value={dob}
+                onChange={(e) => setDOB(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="age">
-            {/* <Form.Label>Age</Form.Label> */}
-            <Form.Control
-              type="age"
-              placeholder="Enter Age"
-              value={age}
-              disabled
-              onChange={(e) => setAge(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel controlId="age" label="Age" className="mb-3">
+              <Form.Control
+                type="age"
+                placeholder="Enter Age"
+                value={age}
+                disabled
+                onChange={(e) => setAge(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="active">
-            {/* <Form.Label>Active Status</Form.Label> */}
-            <Form.Control
-              type="active"
-              placeholder="Enter Active Status"
-              value={active}
-              onChange={(e) => setActive(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="active"
+              label="Active Status"
+              className="mb-3"
+            >
+              <Form.Control
+                type="active"
+                placeholder="Enter Active Status"
+                value={active}
+                onChange={(e) => setActive(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="active">
-            <Form.Label>Skill Name</Form.Label>
-            <Form.Control
-              type="skillName"
-              placeholder="Enter Skill Name"
-              value={skillName}
-              onChange={(e) => setSkillName(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="active"
+              label="Active Status"
+              className="mb-3"
+            >
+              <Form.Control
+                type="skillName"
+                placeholder="Enter Skill Name"
+                value={skillName}
+                onChange={(e) => setSkillName(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="description">
-            <Form.Label>Skill Description</Form.Label>
-            <Form.Control
-              type="description"
-              placeholder="Enter Skill Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></Form.Control>
+            <FloatingLabel
+              controlId="description"
+              label="Description"
+              className="mb-3"
+            >
+              <Form.Control
+                type="description"
+                placeholder="Enter Skill Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
+            </FloatingLabel>
           </Form.Group>
           <div className="btn-container">
             <Button type="submit" variant="primary" className="submit-btn">

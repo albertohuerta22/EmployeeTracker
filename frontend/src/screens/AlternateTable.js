@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Pagination } from 'react-bootstrap';
+import {
+  Table,
+  Button,
+  Pagination,
+  OverlayTrigger,
+  Popover,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
@@ -13,6 +19,15 @@ import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
 import NewModel from '../components/NewModel.js';
 import useWindowDimensions from '../components/FindWindow.js';
+import {
+  OverlayPopEmail,
+  OverlayPopId,
+  OverlayPopDOB,
+  OverlayPopSkillId,
+  OverlayPopActive,
+  OverlayPopFirstName,
+  OverlayPopLastName,
+} from '../components/OverlayPop.js';
 // import Paginate from '../components/Paginate.js';
 
 //imported actions
@@ -99,24 +114,46 @@ const AlternateTable = () => {
           {employees &&
             employees.map((employee) => (
               <tr key={employee._id}>
-                <td onClick={() => listScreen}>{employee._id}</td>
-                <td>{employee.firstName}</td>
-                <td>{employee.lastName}</td>
+                <td onClick={() => listScreen}>
+                  <OverlayPopId id={employee._id}></OverlayPopId>
+                </td>
+                <td>
+                  {width < 1000 ? (
+                    <OverlayPopFirstName firstName={employee.firstName} />
+                  ) : (
+                    employee.firstName
+                  )}
+                </td>
+                <td>
+                  {width < 1000 ? (
+                    <OverlayPopLastName lastName={employee.lastName} />
+                  ) : (
+                    employee.lastName
+                  )}
+                </td>
                 <td>
                   {width < 1500 ? (
-                    <i className="bi bi-envelope"></i>
+                    // <i className="bi bi-envelope"></i>
+                    <OverlayPopEmail email={employee.email}></OverlayPopEmail>
                   ) : (
                     employee.email
                   )}
                 </td>
-                <td>{employee.dob}</td>
+                <td>
+                  <OverlayPopDOB dob={employee.dob}></OverlayPopDOB>
+                </td>
                 <td>{employee.age}</td>
 
                 <td>
                   {skills.map((skill) => {
                     for (let key in skill) {
                       if (employee._id === skill[key]) {
-                        return skill._id;
+                        return (
+                          <OverlayPopSkillId
+                            key={skill._id}
+                            skillID={skill._id}
+                          ></OverlayPopSkillId>
+                        );
                       }
                     }
                     return null;
@@ -142,9 +179,12 @@ const AlternateTable = () => {
                   })}
                 </td>
 
-                <td>{employee.active.toString()}</td>
                 <td>
-                  {/* <LinkContainer to={`/list/${employee._id}`}> */}
+                  <OverlayPopActive
+                    active={employee.active.toString()}
+                  ></OverlayPopActive>
+                </td>
+                <td>
                   <Button
                     variant="primary"
                     onClick={() =>
@@ -185,13 +225,6 @@ const AlternateTable = () => {
         </tbody>
       </Table>
       <>
-        {/* <LinkContainer
-          to={`/newemployee`}
-          style={{ float: 'right', marginRight: '20px' }}
-        >
-          <Button variant="success">+ New Employee</Button>
-          {/* <NewEmployeeForm className="" /> */}
-        {/* <//LinkContainer> */}
         <Button
           variant="success"
           onClick={handleShow}
