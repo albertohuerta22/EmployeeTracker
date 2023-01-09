@@ -102,7 +102,13 @@ const AlternateTable = () => {
                 <td onClick={() => listScreen}>{employee._id}</td>
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
-                <td>{employee.email}</td>
+                <td>
+                  {width < 1500 ? (
+                    <i className="bi bi-envelope"></i>
+                  ) : (
+                    employee.email
+                  )}
+                </td>
                 <td>{employee.dob}</td>
                 <td>{employee.age}</td>
 

@@ -68,7 +68,7 @@ const EditScreen = () => {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
 
-      <div className="second-header"></div>
+      {/* <div className="second-header"></div> */}
       <Link to="/list" className="btn btn-ligth my-3">
         Go Back
       </Link>
@@ -94,7 +94,7 @@ const EditScreen = () => {
           style={{ padding: '20px', margin: '20px', flex: '1' }}
         >
           <Form.Group controlId="firstName">
-            <Form.Label>First Name</Form.Label>
+            {/* <Form.Label>First Name</Form.Label> */}
             <Form.Control
               type="firstName"
               placeholder="Enter First Name"
@@ -103,7 +103,7 @@ const EditScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="lastName">
-            <Form.Label>Last Name</Form.Label>
+            {/* <Form.Label>Last Name</Form.Label> */}
             <Form.Control
               type="lastName"
               placeholder="Enter Last Name"
@@ -112,7 +112,7 @@ const EditScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
+            {/* <Form.Label>Email Address</Form.Label> */}
             <Form.Control
               type="email"
               placeholder="Enter email"
@@ -122,7 +122,7 @@ const EditScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="dob">
-            <Form.Label>D.O.B.</Form.Label>
+            {/* <Form.Label>D.O.B.</Form.Label> */}
             <Form.Control
               type="date"
               placeholder="D.O.B."
@@ -131,7 +131,7 @@ const EditScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="age">
-            <Form.Label>Age</Form.Label>
+            {/* <Form.Label>Age</Form.Label> */}
             <Form.Control
               type="age"
               placeholder="Enter Age"
@@ -141,7 +141,7 @@ const EditScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId="active">
-            <Form.Label>Active Status</Form.Label>
+            {/* <Form.Label>Active Status</Form.Label> */}
             <Form.Control
               type="active"
               placeholder="Enter Active Status"

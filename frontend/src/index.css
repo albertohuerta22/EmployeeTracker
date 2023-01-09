@@ -1,5 +1,7 @@
 
-
+body {
+    overflow: hidden;
+}
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
     background-color: yellow !important;
@@ -14,9 +16,11 @@
     justify-content: center;
     /* align-items: center; */
     /* align-content: center; */
+    height: 50%;
+    
     border: 2px solid black;
     border-radius: 25px;
-    width: 20%;
+    width: 25%;
     top: 30%;
     left: 40%;
     padding: 20px;
@@ -28,6 +32,10 @@
 
 .form-fill {
     width: 100%;
+    
+    margin-top: 20px;
+    margin-right: 5px;
+    /* border: #000 !important; */
     
 }
 
@@ -99,15 +107,35 @@ td {
 }
 
 .overlay {
-   position:fixed;
+   position:absolute;
    margin-left: 20%;
   --mask:
     radial-gradient(173.95px at 246.00px 50%,#000 99%,#0000 101%) 0 calc(50% - 246px)/100% 492px,
     radial-gradient(173.95px at -123px 50%,#0000 99%,#000 101%) 123px 50%/100% 492px repeat-y;
   -webkit-mask: var(--mask);
           mask: var(--mask);
-          background-color: #4e93c9;
+          background-color: #0B6DB5;
     height: 100%;
     width: 100%;
     z-index: -1;
+    
+  
+}
+
+.kaseya-img {
+    position:absolute;
+    top: 10%;
+    padding-left: 20px;
+    
+}
+
+.new-user {
+    align-items: right ;
+    justify-content: right;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.checkbox {
+    margin-top: 10px;
 }

@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/list" element={<AltrenateTable />} />
-        <Route path="/newemployee" element={<NewEmployeeForm />} />
+        {/* <Route path="/newemployee" element={<NewEmployeeForm />} /> */}
         <Route path="/list/:id" element={<EditScreen />} />
       </Routes>
     </Router>
