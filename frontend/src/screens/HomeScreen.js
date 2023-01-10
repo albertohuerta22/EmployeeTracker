@@ -57,7 +57,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <>
+    <div className="overflow-hidden">
       <div className="kaseya-img">
         <Image src={logo} alt="kaseya"></Image>
       </div>
@@ -129,7 +129,7 @@ const HomeScreen = () => {
           </Modal.Body>
         </Modal>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,15 @@
 
 body {
-    overflow: hidden;
+   max-height: 100%;
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th{
     background-color: yellow !important;
 }
 
+.edit-screen {
+    overflow-y: auto;
+}
 
 .login-container {
     position: absolute;
@@ -94,6 +97,9 @@ td {
     text-align: center;
     flex-direction: row;
     padding: 5%;
+    overflow-y: auto;
+
+
 }
 
 .avatar {
@@ -107,7 +113,8 @@ td {
 }
 
 .overlay {
-   position:absolute;
+   
+   position:fixed;
    margin-left: 20%;
   --mask:
     radial-gradient(173.95px at 246.00px 50%,#000 99%,#0000 101%) 0 calc(50% - 246px)/100% 492px,
@@ -115,12 +122,15 @@ td {
   -webkit-mask: var(--mask);
           mask: var(--mask);
           background-color: #0B6DB5;
+    /* max-height: 100px; */
     height: 100%;
     width: 100%;
     z-index: -1;
     
   
 }
+
+
 
 .kaseya-img {
     position:absolute;
@@ -138,4 +148,8 @@ td {
 
 .checkbox {
     margin-top: 10px;
+}
+
+.pagination {
+    justify-content: center;
 }

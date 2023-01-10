@@ -64,7 +64,7 @@ const EditScreen = () => {
     navigate('/list');
   };
   return (
-    <>
+    <div className="edit-screen">
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
 
@@ -207,7 +207,7 @@ const EditScreen = () => {
         </Form>
         {/* </FormContainer> */}
       </div>
-    </>
+    </div>
   );
 };
 

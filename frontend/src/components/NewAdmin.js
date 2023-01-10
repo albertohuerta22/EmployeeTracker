@@ -17,8 +17,8 @@ const NewAdmin = () => {
   const [password, setPassword] = useState('');
   const [admin, setAdmin] = useState('');
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = (event) => {
+    event.preventDefault();
     dispatch();
     //   createEmployee({
     //     firstName,

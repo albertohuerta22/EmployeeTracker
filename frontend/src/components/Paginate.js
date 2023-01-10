@@ -1,20 +1,25 @@
-import React from 'react';
-import { Pagination } from 'react-bootstrap';
+import React, { Children } from 'react';
+// import { Pagination } from 'react-bootstrap';
 
-const Paginate = () => {
-  let active = 3;
-  let items = [];
-  for (let number = 1; number <= 5; number++) {
-    items.push(
-      <Pagination.Item key={number} active={number === active}>
-        {number}
-      </Pagination.Item>
-    );
+const Paginate = ({ postsPerPage, totalPosts, paginate }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
   }
 
   return (
-    <div>
-      <Pagination>{items}</Pagination>
+    <div className="justify-center">
+      <ul className="pagination">
+        {/* {console.log(postsPerPage, totalPosts)} */}
+        {pageNumbers.map((number) => (
+          <li key={number} className="page-item">
+            <a onClick={() => paginate(number)} href="#" className="page-link">
+              {number}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

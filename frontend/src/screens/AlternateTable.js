@@ -10,10 +10,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import Paginate from 'react-bootstrap/Pagination';
 // import overlayFactory from 'react-bootstrap-table2-overlay';
 
 //imported components
+import Paginate from '../components/Paginate.js';
 import NewEmployeeForm from '../components/NewEmployeeForm.js';
 import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
@@ -28,7 +28,6 @@ import {
   OverlayPopFirstName,
   OverlayPopLastName,
 } from '../components/OverlayPop.js';
-// import Paginate from '../components/Paginate.js';
 
 //imported actions
 import { listEmployees, deleteEmployee } from '../action/employeeAction.js';
@@ -41,6 +40,13 @@ const AlternateTable = () => {
   const { width, height } = useWindowDimensions();
 
   const [show, setShow] = useState(false);
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleClose = () => setShow(false); //handles modal
   const handleShow = () => setShow(true);
@@ -62,6 +68,14 @@ const AlternateTable = () => {
     dispatch(listSkills());
   }, [dispatch, listSkills]);
 
+  //get current employees
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = employees
+    ? employees.slice(indexOfFirstPost, indexOfLastPost)
+    : [];
+  // console.log(employees);
+
   const deleteHandler = (id) => {
     // fail safe
     if (window.confirm('Are you sure')) {
@@ -77,19 +91,6 @@ const AlternateTable = () => {
     console.log('');
     // navigate = ()
   };
-
-  let active = 3;
-  let items = [];
-  if (employees) {
-    for (let number = 1; number <= employees.length; number++) {
-      // console.log(employees[number]._id);
-      items.push(
-        <Pagination.Item key={number} active={number === active}>
-          {employees[number]}
-        </Pagination.Item>
-      );
-    }
-  }
 
   return (
     <>
@@ -112,7 +113,9 @@ const AlternateTable = () => {
         </thead>
         <tbody>
           {employees &&
-            employees.map((employee) => (
+            currentPosts.map((
+              employee // employees > currentPosts
+            ) => (
               <tr key={employee._id}>
                 <td onClick={() => listScreen}>
                   <OverlayPopId id={employee._id}></OverlayPopId>
@@ -250,9 +253,14 @@ const AlternateTable = () => {
           </Modal.Body>
         </Modal>
       </>
-      {/* <div>
-        <Pagination>{items}</Pagination>
-      </div> */}
+
+      <div className="pagination">
+        <Paginate
+          postsPerPage={postsPerPage}
+          totalPosts={employees ? employees.length : 0}
+          paginate={paginate}
+        />
+      </div>
     </>
   );
 };
