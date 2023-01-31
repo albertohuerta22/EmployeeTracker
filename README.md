@@ -13,7 +13,7 @@
 
 
 
-Employee Tracker aims to maintain accountability of employee and their skillset found in a company. Administrators can access the tracking tool to login and manage their employee details. Admin users and their employees are protected using JWT token and Bcrypt hashing algorithms. This allows for seemless navigation. Adding, Updating, Deleting an employee from a CRM has never been this easy!
+Employee Tracker aims to maintain accountability of employees and their skillset found in a company. Administrators can access the tracking tool to login and manage their employee details. Admin users and their employees are protected using JWT token and Bcrypt hashing algorithms. This allows for seemless navigation. Adding, Updating, Deleting an employee from a CRM has never been this easy!
 
 ### Built With
 
