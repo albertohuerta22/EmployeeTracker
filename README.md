@@ -66,9 +66,9 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Stretches through Teachable Machine trained model
-- [x] Compile stretches into routines for users
-- [x] Run stretches from catalogue through pose detection and classification feature - "Stretch Cam"
+- [x] Add Employee
+- [x] Update employee
+- [x] Delete Employee
 - [ ] Progressive Web App capability
 - [ ] Incorporate social connections through sharing and rating routines
 
