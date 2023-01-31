@@ -7,8 +7,10 @@ import {
   EMPLOYEE_DELETE_FAIL,
   EMPLOYEE_CREATE_REQUEST,
   EMPLOYEE_CREATE_SUCCESS,
+  EMPLOYEE_CREATE_RESET,
   EMPLOYEE_CREATE_FAIL,
   EMPLOYEE_UPDATE_REQUEST,
+  EMPLOYEE_UPDATE_RESET,
   EMPLOYEE_UPDATE_SUCCESS,
   EMPLOYEE_UPDATE_FAIL,
   EMPLOYEE_DETAILS_REQUEST,
@@ -56,6 +58,8 @@ export const employeeCreateReducer = (state = {}, action) => {
       return { loading: false, success: true, employee: action.payload };
     case EMPLOYEE_CREATE_FAIL:
       return { loading: false, error: action.payload };
+    case EMPLOYEE_CREATE_RESET:
+      return {};
     default:
       return state;
   }
@@ -66,7 +70,7 @@ export const employeeDeleteReducer = (state = {}, action) => {
     case EMPLOYEE_DELETE_REQUEST:
       return { loading: true };
     case EMPLOYEE_DELETE_SUCCESS:
-      return { loading: false, success: true };
+      return { loading: false, success: false };
     case EMPLOYEE_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -81,6 +85,8 @@ export const employeeUpdateReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case EMPLOYEE_UPDATE_FAIL:
       return { loading: false, error: action.payload };
+    case EMPLOYEE_UPDATE_RESET:
+      return {};
     default:
       return state;
   }

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 //imported sample data
 import users from './data/users.js';
 import employees from './data/employees.js';
+import skills from './data/skills.js';
 // imported models
 import User from './models/userModel.js';
 import Skill from './models/skillModel.js';
@@ -24,6 +25,7 @@ const importData = async () => {
 
     await User.insertMany(users);
     await Employee.insertMany(employees);
+    await Skill.insertMany(skills);
 
     // const adminUser = createdUsers[0]._id;
 
@@ -36,6 +38,8 @@ const importData = async () => {
 const destroyData = async () => {
   try {
     await User.deleteMany();
+    await Employee.deleteMany();
+    await Skill.deleteMany();
 
     console.log('Data Destroyed!');
   } catch (error) {

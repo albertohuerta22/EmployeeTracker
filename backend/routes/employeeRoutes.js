@@ -7,7 +7,7 @@ import {
   createEmployee,
   updateEmployee,
   deleteEmployee,
-  getAllEmployees,
+  // getAllEmployees,
 } from '../controllers/employeeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -19,13 +19,13 @@ const router = express.Router();
 router
   .route('/')
   .get(protect, getEmployees)
-  .post(createEmployee)
-  .put(updateEmployee);
+  .post(protect, createEmployee)
+  .put(protect, updateEmployee);
 
 // /api/employees/:id
 router
   .route('/:id')
   .get(protect, getSingleEmployee)
 
-  .delete(deleteEmployee);
+  .delete(protect, deleteEmployee);
 export default router;

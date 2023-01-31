@@ -18,7 +18,7 @@ const employeeSchema = mongoose.Schema({
 
   firstName: {
     type: String,
-    // required: true,
+    required: true,
   },
   lastName: {
     type: String,
@@ -32,15 +32,19 @@ const employeeSchema = mongoose.Schema({
     type: String,
     // required: true,
   },
-  skills: [
-    // skillSchema,
-    // ** not sure why this did not work
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Skill',
-    },
-  ],
+  //1:Many
+  skills:
+    // // { type: String },
+    // [
+    //   // skillSchema,
+    //   // ** not sure why this did not work
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'Skill',
+    //   },
+    // ],
+    { type: String },
   active: {
     type: Boolean,
     // required: true,
@@ -48,6 +52,9 @@ const employeeSchema = mongoose.Schema({
   age: {
     type: Number,
     // required: true,
+  },
+  description: {
+    type: String,
   },
 });
 

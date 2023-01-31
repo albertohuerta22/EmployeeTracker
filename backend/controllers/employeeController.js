@@ -9,53 +9,17 @@ import Skill from '../models/skillModel.js';
 
 const getEmployees = asyncHandler(async (req, res) => {
   const employees = await Employee.find({});
-  // .populate({
-  //   path: 'Skills',
-  //   // select: 'name',
-  //   strictPopulate: false,
-  // })
-  // .exec();
-  // .exec((err, employee) => {
-  //   if (err) return handleError(err);
-  //   console.log(employee);
-  // });
-
   res.json(employees);
 });
-//description: GET ALL EMPLOYEES
-//route: GET /api/employees
-//access: public
 
-const getAllEmployees = asyncHandler(async (req, res) => {
-  try {
-    const employees = await Employee.find()
-      .populate({
-        path: 'Skill',
-        populate: {
-          path: 'skills',
-          // model: 'Skill',
-        },
-        strictPopulate: false,
-        select: 'name description',
-      })
-      .exec();
-    res.status(200).send({ employees: [...employees], success: true });
-
-    res.json(employees);
-  } catch (error) {
-    console.log(error);
-    res.status(404).send({ success: false, msg: error.message });
-  }
-});
 //description: GET EMPLOYEE
 //route: GET /api/employees/:id
 //access: public
-
 const getSingleEmployee = asyncHandler(async (req, res) => {
   // console.log(req.params.id);
   const employee = await Employee.findById(req.params.id);
 
-  res.json(employee);
+  return res.json(employee);
 });
 
 //description: CREATE employee
@@ -65,11 +29,11 @@ const createEmployee = asyncHandler(async (req, res) => {
   const { firstName, lastName, dob, email, active, age, skill, description } =
     req.body;
 
-  const employeeExist = await Employee.findOne({ email: email });
+  let employeeExist = await Employee.findOne({ email: email });
 
   if (employeeExist) {
-    res.status(400);
-    throw new Error('Employee already exist');
+    return res.status(401).send('Employee already exist');
+    // throw new Error('Employee already exist');
   }
 
   const employee = await Employee.create({
@@ -79,38 +43,27 @@ const createEmployee = asyncHandler(async (req, res) => {
     email,
     active,
     age,
+    description,
   });
 
   if (employee && skill) {
-    const newSkill = await Skill.create({
-      name: skill,
-      description: description,
-      employee: employee._id,
-    });
-    const savedSkill = await newSkill.save();
+    let skillObj = await Skill.findOne({ skill }); // this matches one skill name
 
-    // employee.skills = [
-    //   Skill.populate({
-    //     path: 'Skill',
-    //     strictPopulate: false,
-    //     select: 'name description',
-    //   }),
-    // ];
-    // console.log(employee);
-  }
-
-  if (employee && skill) {
-    res.status(201).json({
-      _id: employee._id,
-      firstName: employee.firstName,
-      lastName: employee.lastName,
-      email: employee.email,
-      dob: employee.dob,
-      age: employee.age,
-      active: employee.active,
-    });
+    if (skillObj.name === 'Scala') {
+      // employee.skills = 1;
+      employee.skills = skill;
+      // employee.description = description;
+    }
+    if (skillObj.name === 'Python') {
+      employee.skills = skill;
+    }
+    if (skillObj.name === 'Java') {
+      employee.skills = skill;
+    }
+    await employee.save();
+    return res.json(employee);
   } else {
-    res.status(400);
+    res.status(401).send('Invalid user data');
     throw new Error('Invalid user data');
   }
 });
@@ -130,12 +83,11 @@ const updateEmployee = asyncHandler(async (req, res) => {
     skillName,
     description,
   } = req.body;
-  console.log(email);
+  // console.log(email);
 
   let employee = await Employee.findOne({ email }, _id); // extracts the employee id based on email
-  // console.log(employeeID);
-  // let employee = await Employee.findById(employeeID);
-  console.log(employee);
+
+  // let employeeID = _id;
 
   if (employee) {
     // console.log(employee);
@@ -145,44 +97,15 @@ const updateEmployee = asyncHandler(async (req, res) => {
     employee.email = email;
     employee.dob = dob;
     employee.age = age;
-    employee.skills = [];
+    employee.skills = skillName;
     employee.active = active;
+    employee.description = description;
 
-    //trying to update skills if given -> employee skills ref skills table
-    const skillsID = await Skill.find({ _id });
-    console.log(skillsID);
-    let skillObj = await Skill.findById(skillsID);
-    // console.log(skillObj);
-    if (skillObj) {
-      (skillObj.name = skillName), (skillObj.description = description);
-      await skillObj.save();
-    }
-
-    if (skillObj === null) {
-      Skill.create({
-        name: skillName,
-        description: description,
-        employee: employee,
-      });
-    }
-
-    // employee.skills.push(Object.values(skills));
-
-    // if (employee && skills) {
-    //   res.status(201).json({
-    //     _id: employee._id,
-    //     firstName: employee.firstName,
-    //     lastName: employee.lastName,
-    //     email: employee.email,
-    //     dob: employee.dob,
-    //     age: employee.age,
-    //     active: employee.active,
-    //   });
-    // }
     const updatedEmployee = await employee.save();
+
     res.json(updatedEmployee);
   } else {
-    res.status(404);
+    res.status(401);
     throw new Error('Employee not found');
   }
 });
@@ -198,7 +121,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
     await employee.remove();
     res.json({ message: 'Employee removed' });
   } else {
-    res.status(404);
+    res.status(401);
     throw new Error('Employee not found');
   }
 });
@@ -209,5 +132,5 @@ export {
   createEmployee,
   updateEmployee,
   deleteEmployee,
-  getAllEmployees,
+  // getAllEmployees,
 };

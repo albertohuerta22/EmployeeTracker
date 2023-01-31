@@ -4,10 +4,11 @@ import express from 'express';
 import { addSkills, getSkills } from '../controllers/skills.js';
 
 //imported security middleware
+import { protect } from '../middleware/authMiddleware.js';
 
 //routes
 const router = express.Router();
 
-router.route('/').get(getSkills).post(addSkills);
+router.route('/').get(protect, getSkills).post(protect, addSkills);
 
 export default router;

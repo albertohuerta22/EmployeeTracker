@@ -30,6 +30,7 @@ const HomeScreen = () => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error } = userLogin;
+
   //redirect if already logged in
 
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
@@ -48,12 +49,12 @@ const HomeScreen = () => {
   };
 
   const togglePassword = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // When the handler is invoked
     // inverse the boolean state of passwordShown
 
-    setPasswordShown(!passwordShown);
-    setIsChecked(!isChecked);
+    // setIsChecked((isChecked) => !isChecked);
+    setPasswordShown((passwordShown) => !passwordShown);
   };
 
   return (
@@ -90,7 +91,7 @@ const HomeScreen = () => {
             className="checkbox"
             type="checkbox"
             label="Show Password"
-            checked={isChecked}
+            checked={passwordShown}
             onChange={togglePassword}
           />
           <br />

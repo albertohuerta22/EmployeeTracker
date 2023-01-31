@@ -148,8 +148,36 @@ td {
 
 .checkbox {
     margin-top: 10px;
+    text-align: left;
+    justify-content: left;
+    align-items: left;
+    align-content: center;
 }
 
 .pagination {
     justify-content: center;
+}
+
+.skills-radio {
+    margin: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.radio-label {
+    display: block;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-check {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-check-label {
+    text-align: left;
 }

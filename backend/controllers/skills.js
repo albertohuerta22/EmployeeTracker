@@ -6,7 +6,7 @@ import Skill from '../models/skillModel.js';
 //access: PRIVATE
 
 const addSkills = asyncHanlder(async (req, res) => {
-  const { name, description, employee } = req.body;
+  const { name, description } = req.body;
 
   if (name && description === undefined) {
     res.status(400);
@@ -15,7 +15,7 @@ const addSkills = asyncHanlder(async (req, res) => {
     const skill = new Skill({
       name,
       description,
-      employee,
+      // employee,
     });
 
     const createdSkill = await skill.save();

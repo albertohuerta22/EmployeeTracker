@@ -12,7 +12,6 @@ import { updateEmployee } from '../action/employeeAction.js';
 
 const EditScreen = () => {
   const { state: employee } = useLocation();
-  // console.log(employee);
 
   const navigate = useNavigate();
 
@@ -22,8 +21,8 @@ const EditScreen = () => {
   const [dob, setDOB] = useState(employee.dob);
   const [age, setAge] = useState(employee.age);
   const [active, setActive] = useState(employee.active);
-  const [skillName, setSkillName] = useState('');
-  const [description, setDescription] = useState('');
+  const [skillName, setSkillName] = useState(employee.skill);
+  const [description, setDescription] = useState(employee.description);
 
   const dispatch = useDispatch();
   // const navigate = useNavigate();
@@ -34,6 +33,10 @@ const EditScreen = () => {
   const employeeDetails = useSelector((state) => state.employeeDetails);
   const { loading, error } = employeeDetails;
 
+  const updatedEmployee = useSelector((state) => state.updateEmployee);
+  const { success } = updatedEmployee;
+
+  const employeePresent = JSON.parse(sessionStorage.getItem('userInfo'));
   //   const userUpdate = useSelector((state) => state.userUpdate);
   //   const {
   //     loading: loadingUpdate,
@@ -46,22 +49,26 @@ const EditScreen = () => {
     // navigate('/list');
   }, [dispatch, listEmployeeDetails]);
 
+  // console.log(employeePresent);
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateEmployee({
-        _id: params.id,
-        firstName,
-        lastName,
-        email,
-        dob,
-        age,
-        active,
-        skillName,
-        description,
-      })
-    );
-    navigate('/list');
+
+    if (employeePresent) {
+      dispatch(
+        updateEmployee({
+          _id: params.id,
+          firstName,
+          lastName,
+          email,
+          dob,
+          age,
+          active,
+          skillName,
+          description,
+        })
+      );
+    }
+    navigate('/');
   };
   return (
     <div className="edit-screen">
@@ -171,18 +178,28 @@ const EditScreen = () => {
               ></Form.Control>
             </FloatingLabel>
           </Form.Group>
-          <Form.Group controlId="active">
+          <Form.Group>
             <FloatingLabel
-              controlId="active"
-              label="Active Status"
+              // controlId="active"
+              // label="Active Status"
               className="mb-3"
             >
               <Form.Control
+                as="select"
+                value={skillName}
+                onChange={(e) => setSkillName(e.target.value)}
+              >
+                <option>Select Menu</option>
+                <option value="Scala">Scala</option>
+                <option value="Python">Python</option>
+                <option value="Java">Java</option>
+              </Form.Control>
+              {/* <Form.Control
                 type="skillName"
                 placeholder="Enter Skill Name"
                 value={skillName}
                 onChange={(e) => setSkillName(e.target.value)}
-              ></Form.Control>
+              ></Form.Control> */}
             </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="description">

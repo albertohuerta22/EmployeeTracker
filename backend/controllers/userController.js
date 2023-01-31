@@ -58,9 +58,31 @@ const authUser = asyncHandler(async (req, res, next) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(401);
-    throw new Error('Invalid username or password');
+    res.status(401).send('Invalid username or password');
+    // res.response()
+    // throw new Error('Invalid username or password');
   }
 });
+// const authUser = asyncHandler(async (req, res, next) => {
+//   const { username, password } = req.body;
+
+//   //looks for user with exact username
+//   const user = await User.findOne({ username: username });
+//   try {
+//     //if there is a user and matching password return json + token
+//     if (user && (await user.matchPassword(password))) {
+//       res.json({
+//         _id: user._id,
+//         name: user.name,
+//         username: user.username,
+//         isAdmin: user.isAdmin,
+//         token: generateToken(user._id),
+//       });
+//     }
+//   } catch (error) {
+//     res.status(401);
+//     throw new Error('Invalid username or password');
+//   }
+// });
 
 export { getUsers, getSingleUser, deleteUser, authUser };

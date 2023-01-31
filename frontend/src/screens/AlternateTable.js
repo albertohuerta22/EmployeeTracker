@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+// import { LinkContainer } from 'react-router-bootstrap';
 import {
   Table,
   Button,
@@ -8,7 +8,7 @@ import {
   Popover,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 // import overlayFactory from 'react-bootstrap-table2-overlay';
 
@@ -19,6 +19,7 @@ import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
 import NewModel from '../components/NewModel.js';
 import useWindowDimensions from '../components/FindWindow.js';
+import { logout } from '../action/userAction.js';
 import {
   OverlayPopEmail,
   OverlayPopId,
@@ -30,16 +31,29 @@ import {
 } from '../components/OverlayPop.js';
 
 //imported actions
-import { listEmployees, deleteEmployee } from '../action/employeeAction.js';
+import {
+  listEmployees,
+  deleteEmployee,
+  updateEmployee,
+  resetEmployee,
+} from '../action/employeeAction.js';
 import { listSkills } from '../action/skillsAction.js';
+
+const employeeAdded = JSON.parse(sessionStorage.getItem('employeeAdded'));
 
 const AlternateTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //window shrink hook
   const { width, height } = useWindowDimensions();
-
+  //modal
   const [show, setShow] = useState(false);
+
+  const [access, setAccess] = useState(false);
+  const [added, setAdded] = useState(null);
+  const [newEmployee, setNewEmployee] = useState(null);
+  const [deleteSuccess, setDeleteSuccess] = useState(null);
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,25 +62,60 @@ const AlternateTable = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleClose = () => setShow(false); //handles modal
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false); //handles modal
+    // setNewEmployee(true); //verify contents
+  };
+  const handleShow = () => {
+    if (!sessionStorage.getItem('userInfo')) {
+      navigate('/');
+    } else {
+      setShow(true);
+    }
+  };
 
+  ///// USE SELECTOR HOOKS //
   const employeeList = useSelector((state) => state.employeeList);
   const { loading, error, employees } = employeeList;
 
+  const createEmployee = useSelector((state) => state.createEmployee);
+  const { error: createError, success: newemployeesuccess } = createEmployee;
+
+  const updateEmployee = useSelector((state) => state.updateEmployee);
+  const { success: updatesuccess } = updateEmployee;
+  // console.log(success);
+
   const skillList = useSelector((state) => state.skillList);
   const { skills } = skillList;
-  //   console.log(skills);
+  // console.log(skills);
 
   //if not logged in protect middleware will prevent screen
   useEffect(() => {
-    // dispatch(listSkills());
-    dispatch(listEmployees());
-  }, [dispatch, listEmployees]);
+    if (updatesuccess) {
+      setAdded(true); //handles the update success message
+      setTimeout(() => {
+        setAdded(false);
+      }, 2000);
 
-  useEffect(() => {
-    dispatch(listSkills());
-  }, [dispatch, listSkills]);
+      dispatch(listEmployees());
+      dispatch(listSkills());
+      dispatch(resetEmployee());
+    } else if (newemployeesuccess) {
+      setNewEmployee(true); //handles the new employee success message
+      setTimeout(() => {
+        setNewEmployee(false);
+      }, 2000);
+
+      dispatch(listEmployees());
+      dispatch(listSkills());
+      dispatch(resetEmployee());
+    } else {
+      dispatch(listEmployees());
+      dispatch(listSkills());
+    }
+
+    // addedEmployee();
+  }, [dispatch, listEmployees, listSkills, updatesuccess, newemployeesuccess]);
 
   //get current employees
   const indexOfLastPost = currentPage * postsPerPage;
@@ -77,25 +126,49 @@ const AlternateTable = () => {
   // console.log(employees);
 
   const deleteHandler = (id) => {
+    //console.log(userInfo.token);
     // fail safe
-    if (window.confirm('Are you sure')) {
-      dispatch(deleteEmployee(id));
+    if (!sessionStorage.getItem('userInfo')) {
       navigate('/');
+    } else {
+      if (window.confirm('Are you sure')) {
+        dispatch(deleteEmployee(id));
+        setDeleteSuccess(true);
+
+        setTimeout(() => {
+          navigate('/'); // change this to useState change not navigate
+        }, 1000);
+      }
     }
   };
   const editHandler = (employee) => {
-    navigate(`/list/${employee.id}`, { state: employee });
-  };
-
-  const listScreen = (id) => {
-    console.log('');
-    // navigate = ()
+    if (!sessionStorage.getItem('userInfo')) {
+      navigate('/');
+    } else {
+      navigate(`/list/${employee.id}`, { state: employee });
+    }
   };
 
   return (
     <>
+      {/* {access ? '' : <Button>Take Me Back!</Button>} */}
       {error && <Message variant="danger">{error}</Message>}
+      {createError && <Message variant="danger">{createError}</Message>}
       {loading && <Loader />}
+
+      {added ? <Message variant="success">Employee Updated!</Message> : ''}
+
+      {newEmployee ? (
+        <Message variant="success">New Employee Added!</Message>
+      ) : (
+        ''
+      )}
+      {deleteSuccess ? (
+        <Message variant="success">Employee Deleted!</Message>
+      ) : (
+        ''
+      )}
+
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -105,7 +178,7 @@ const AlternateTable = () => {
             <th>EMAIL</th>
             <th>DOB</th>
             <th>AGE</th>
-            <th>SKILL ID</th>
+            {/* <th>SKILL ID</th> */}
             <th>SKILL Name</th>
             <th>DESCRIPTION</th>
             <th>ACTIVE</th>
@@ -117,7 +190,7 @@ const AlternateTable = () => {
               employee // employees > currentPosts
             ) => (
               <tr key={employee._id}>
-                <td onClick={() => listScreen}>
+                <td>
                   <OverlayPopId id={employee._id}></OverlayPopId>
                 </td>
                 <td>
@@ -147,7 +220,7 @@ const AlternateTable = () => {
                 </td>
                 <td>{employee.age}</td>
 
-                <td>
+                {/* <td>
                   {skills.map((skill) => {
                     for (let key in skill) {
                       if (employee._id === skill[key]) {
@@ -161,25 +234,23 @@ const AlternateTable = () => {
                     }
                     return null;
                   })}
-                </td>
+                </td> */}
                 <td>
-                  {skills.map((skill) => {
+                  {employee.skills}
+                  {/* {skills.map((skill) => {
                     for (let key in skill) {
                       if (employee._id === skill[key]) {
                         return skill.name;
                       }
                     }
                     return null;
-                  })}
+                  })} */}
                 </td>
                 <td>
-                  {skills.map((skill) => {
+                  {
                     // console.log(skill, employee);
-                    if (skill.employee === employee._id) {
-                      return skill.description;
-                    }
-                    return null;
-                  })}
+                    employee.description
+                  }
                 </td>
 
                 <td>
@@ -199,6 +270,8 @@ const AlternateTable = () => {
                         age: employee.age,
                         active: employee.active,
                         dob: employee.dob,
+                        skill: employee.skills,
+                        description: employee.description,
                       })
                     }
                   >
