@@ -6,7 +6,7 @@ import {
   getSingleUser,
   deleteUser,
   authUser,
-} from '../controllers/userController.js';
+} from '../controllers/userController/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 //import security middleware

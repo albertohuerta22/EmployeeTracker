@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 //imported actions
 import {
   EMPLOYEE_LIST_REQUEST,
@@ -42,9 +41,6 @@ export const listEmployees = () => async (dispatch) => {
     dispatch({ type: EMPLOYEE_LIST_SUCCESS, payload: data });
     //request unsuccessful
   } catch (error) {
-    {
-      console.log(error.response);
-    }
     dispatch({
       type: EMPLOYEE_LIST_FAIL,
       payload:

@@ -1,7 +1,7 @@
 import express from 'express';
 
 //imported controllers
-import { addSkills, getSkills } from '../controllers/skills.js';
+import { addSkills, getSkills } from '../controllers/skillController/skills.js';
 
 //imported security middleware
 import { protect } from '../middleware/authMiddleware.js';

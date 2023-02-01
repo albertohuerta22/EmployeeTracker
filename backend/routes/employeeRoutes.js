@@ -8,7 +8,7 @@ import {
   updateEmployee,
   deleteEmployee,
   // getAllEmployees,
-} from '../controllers/employeeController.js';
+} from '../controllers/employeeController/employeeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 //imported security middleware
