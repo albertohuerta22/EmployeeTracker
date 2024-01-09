@@ -68,11 +68,10 @@ npm run start
 
 ## Roadmap
 
-- [x] Add Stretches through Teachable Machine trained model
-- [x] Compile stretches into routines for users
-- [x] Run stretches from catalogue through pose detection and classification feature - "Stretch Cam"
-- [ ] Progressive Web App capability
-- [ ] Incorporate social connections through sharing and rating routines
+- [x] Add Employeee
+- [x] Update Employee
+- [x] Delete Employee
+- [ ] Incorporate Role Assignments via Admin roles
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
